@@ -1,30 +1,74 @@
 package com.example.backend.Controller;
 
+import com.example.backend.DTO.UserDto;
 import com.example.backend.Repository.UserRepository;
-import com.example.backend.User;
+import com.example.backend.Entities.User;
+import com.example.backend.Services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
-@RequestMapping(path="/demo")
+@CrossOrigin
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @PostMapping(path = "/add")
-    public @ResponseBody String addNewUser(@RequestParam String name,@RequestParam String  email){
-        User user=new User();
-        user.setName(name);
-        user.setEmail(email);
-        userRepository.save(user);
-        return "Saved";
+    private UserService userService;
+    public UserController(UserService userService){
+        this.userService=userService;
     }
-    @GetMapping(path="/all")
-    public @ResponseBody Iterable<User> getAllUsers(){
-        return userRepository.findAll();
+    // handler method to handle home page request
+    @GetMapping("/index")
+    public String home(){
+        return "index";
     }
 
+    // handler method to handle user registration form request
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model){
+        // create model object to store form data
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
+        return "register";
+    }
 
+    // handler method to handle login request
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+
+
+    // handler method to handle user registration form submit request
+    @PostMapping("/register/save")
+    public String registration(@Valid @ModelAttribute("user") UserDto userDto,
+                               BindingResult result,
+                               Model model){
+        User existingUser = userService.findUserByEmail(userDto.getEmail());
+
+        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+            result.rejectValue("email", null,
+                    "There is already an account registered with the same email");
+        }
+
+        if(result.hasErrors()){
+            model.addAttribute("user", userDto);
+            return "/register";
+        }
+
+        userService.saveUser(userDto);
+        return "redirect:/register?success";
+    }
+    // handler method to handle list of users
+    @GetMapping("/users")
+    public String users(Model model){
+        List<UserDto> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "users";
+    }
 }
