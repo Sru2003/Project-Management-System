@@ -1,32 +1,51 @@
 package com.example.backend.Services.impl;
 
-import com.example.backend.DTO.LoginDto;
 import com.example.backend.DTO.UserDto;
-import com.example.backend.Entities.Board;
 import com.example.backend.Entities.User;
 import com.example.backend.Repository.BoardRepository;
 import com.example.backend.Repository.UserRepository;
 import com.example.backend.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private BoardRepository boardRepository;
 
-    private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, BoardRepository boardRepository, PasswordEncoder passwordEncoder) {
+
+    public UserServiceImpl(UserRepository userRepository, BoardRepository boardRepository) {
         this.userRepository = userRepository;
         this.boardRepository = boardRepository;
-        this.passwordEncoder = passwordEncoder;
+
+    }
+
+
+    @Override
+    public User verifyUser(User s) {
+        return null;
+    }
+
+    @Override
+    public User createUser(User s) {
+        return null;
+    }
+
+    @Override
+    public User updateUser(User s) {
+        return null;
+    }
+
+    @Override
+    public void deleteUser(String email) {
+
     }
 
     @Override
@@ -34,16 +53,14 @@ public class UserServiceImpl implements UserService {
         User user=new User();
         user.setName(userDto.getFirstName() + " "+userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(userDto.getPassword());
 
         userRepository.save(user);
     }
-
     @Override
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+               return userRepository.findByEmail(email);
     }
-
     @Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();

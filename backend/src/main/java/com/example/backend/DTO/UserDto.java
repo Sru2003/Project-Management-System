@@ -1,5 +1,6 @@
 package com.example.backend.DTO;
 
+import com.example.backend.Entities.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
@@ -69,4 +70,6 @@ public class UserDto {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }
