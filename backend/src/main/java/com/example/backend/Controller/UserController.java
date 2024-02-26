@@ -27,26 +27,6 @@ public class UserController {
     public UserController(UserService userService){
         this.userService=userService;
     }
-    // handler method to handle home page request
-//    @GetMapping("/")
-//    public String home(){
-//        return "HomePage";
-//    }
-
-    // handler method to handle user registration form request
-//    @GetMapping("/register")
-//    public String showRegistrationForm(Model model){
-//        // create model object to store form data
-//        UserDto user = new UserDto();
-//        model.addAttribute("user", user);
-//        return "register";
-//    }
-
-    // handler method to handle login request
-//    @GetMapping("/login")
-//    public String login(){
-//        return "login";
-//    }
 
     @PostMapping("/login") // Change the mapping for login functionality
     public String login(@Valid @ModelAttribute("user") @RequestBody UserDto userDto,
@@ -57,41 +37,12 @@ public class UserController {
         User existingUser = userService.findUserByEmail(email);
 
         if (existingUser != null && existingUser.getPassword().equals(password)) {
-            return userDto.getId().toString(); // Redirect to the users page if password matches
+            return "success"; // Redirect to the users page if password matches
         } else {
-            return null; // Redirect back to login if password doesn't match or user doesn't exist
+            return "failure"; // Redirect back to login if password doesn't match or user doesn't exist
         }
     }
-//@PostMapping("/login")
-//public String login_user(@RequestParam("username") String username, @RequestParam("password") String password,
-//                         HttpSession session, ModelMap modelMap)
-//{
-//
-//    User auser=userRepository.findByUsernamePassword(username, password);
-//
-//    if(auser!=null)
-//    {
-//        String uname=auser.getEmail();
-//        String upass=auser.getPassword();
-//
-//        if(username.equalsIgnoreCase(uname) && password.equalsIgnoreCase(upass))
-//        {
-//            session.setAttribute("username",username);
-//            return "dummy";
-//        }
-//        else
-//        {
-//            modelMap.put("error", "Invalid Account");
-//            return "login";
-//        }
-//    }
-//    else
-//    {
-//        modelMap.put("error", "Invalid Account");
-//        return "login";
-//    }
-//
-//}
+
     @GetMapping("/users")
     public String users(Model model){
         List<UserDto> users = userService.findAllUsers();

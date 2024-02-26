@@ -2,7 +2,9 @@ package com.example.backend.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Board {
@@ -11,20 +13,21 @@ public class Board {
     private Integer id;
     @Column(nullable = false,unique = true)
     private String title;
-    @Column(nullable = false)
-    private String description;
 
     @ManyToMany(mappedBy = "boards")
     private List<User> users;
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<TaskCard> taskCards ;
     public Board() {
     }
 
-    public Board(Integer id, String title, String description, List<User> users) {
+    public Board(Integer id, String title, List<User> users,List<TaskCard> taskCards) {
         this.id = id;
         this.title = title;
-        this.description = description;
+
         this.users = users;
+        this.taskCards=taskCards;
     }
 
     public Integer getId() {
@@ -43,19 +46,27 @@ public class Board {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public List<User> getUsers() {
         return users;
     }
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<TaskCard> getTaskCards() {
+        return taskCards;
+    }
+
+    public void setTaskCards(List<TaskCard> taskCards) {
+        this.taskCards = taskCards;
+    }
+
+    public void addTask(TaskCard taskCard) {
+
+        if (Objects.isNull(taskCards)) {
+            taskCards = new ArrayList<>();
+        }
+        taskCards.add(taskCard);
     }
 }
