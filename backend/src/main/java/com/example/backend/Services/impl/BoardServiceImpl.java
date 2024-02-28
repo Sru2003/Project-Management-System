@@ -44,21 +44,20 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public Board saveNewBoard(BoardDTO boardDTO) {
-        return null;
+        return boardRepository.save(convertDTOToBoard(boardDTO));
     }
 
     @Override
     @Transactional
     public Board updateBoard(Board oldBoard, BoardDTO newBoardDTO) {
         oldBoard.setTitle(newBoardDTO.getTitle());
+        oldBoard.setDescription(newBoardDTO.getDescription());
         return boardRepository.save(oldBoard);
     }
 
     @Override
     @Transactional
-    public void deleteBoard(Board board) {
-        boardRepository.delete(board);
-    }
+    public void deleteBoard(Board board) {boardRepository.delete(board);}
 
     @Override
     @Transactional
@@ -71,6 +70,7 @@ public class BoardServiceImpl implements BoardService {
     private Board convertDTOToBoard(BoardDTO boardDTO){
         Board board =new Board();
         board.setTitle(boardDTO.getTitle());
+        board.setDescription(boardDTO.getDescription());
         return board;
     }
     private TaskCard convertDTOToTask(TaskCardDTO taskCardDTO){

@@ -14,6 +14,16 @@ public class Board {
     @Column(nullable = false,unique = true)
     private String title;
 
+    public Board(Integer id, String title, String description, List<User> users, List<TaskCard> taskCards) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.users = users;
+        this.taskCards = taskCards;
+    }
+
+    @Column(nullable = false)
+    private String description;
     @ManyToMany(mappedBy = "boards")
     private List<User> users;
 
@@ -22,12 +32,12 @@ public class Board {
     public Board() {
     }
 
-    public Board(Integer id, String title, List<User> users,List<TaskCard> taskCards) {
-        this.id = id;
-        this.title = title;
+    public String getDescription() {
+        return description;
+    }
 
-        this.users = users;
-        this.taskCards=taskCards;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getId() {
