@@ -75,8 +75,8 @@ public class BoardServiceImpl implements BoardService {
     }
     private TaskCard convertDTOToTask(TaskCardDTO taskCardDTO){
         TaskCard taskCard=new TaskCard();
-        taskCard.setId(taskCard.getId());
-        taskCard.setName(taskCard.getName());
+        taskCard.setId(taskCardDTO.getId());
+        taskCard.setName(taskCardDTO.getName());
         return taskCard;
     }
 }

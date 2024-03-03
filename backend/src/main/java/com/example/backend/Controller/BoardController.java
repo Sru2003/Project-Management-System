@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/dashboard")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class BoardController {
     private final BoardService boardService;
 
@@ -120,6 +120,7 @@ public class BoardController {
             return errorResponse();
         }
     }
+
 
     private ResponseEntity<String> errorResponse() {
         return  new ResponseEntity<>("Something went wrong : (",HttpStatus.INTERNAL_SERVER_ERROR);

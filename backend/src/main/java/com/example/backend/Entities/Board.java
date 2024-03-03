@@ -1,5 +1,6 @@
 package com.example.backend.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class Board {
 
     @Column(nullable = false)
     private String description;
+
+    @JsonIgnoreProperties("boards")
     @ManyToMany(mappedBy = "boards")
     private List<User> users;
 

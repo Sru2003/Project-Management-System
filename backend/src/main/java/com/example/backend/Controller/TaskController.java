@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
     private final TaskCardService taskCardService;
 

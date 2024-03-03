@@ -1,9 +1,11 @@
 package com.example.backend.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -26,6 +28,7 @@ public class User {
         this.boards = boards;
     }
 
+    @JsonIgnoreProperties("users")
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name="users_boards"
         ,joinColumns = {@JoinColumn(name="USER_ID",referencedColumnName="ID")},
@@ -76,4 +79,11 @@ public class User {
         this.email = email;
     }
 
+    public void addBoard(Board board) {
+
+        if (Objects.isNull(boards)) {
+            boards = new ArrayList<>();
+        }
+        boards.add(board);
+    }
 }
