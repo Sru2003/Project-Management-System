@@ -75,6 +75,7 @@ public class TaskController {
         try {
             Optional<TaskCard> optionalTaskCard=taskCardService.getTaskById(id);
             if(optionalTaskCard.isPresent()){
+                System.out.println(taskCardDTO.getStartDate());
                 return new ResponseEntity<>(taskCardService.updateTask(optionalTaskCard.get(),taskCardDTO),
                         HttpStatus.OK);
             }
