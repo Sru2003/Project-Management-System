@@ -86,6 +86,9 @@ public class TaskServiceImpl implements TaskCardService {
         if(Optional.ofNullable((taskCardDTO.getName())).isPresent()) {
             {
                 taskCard.setName(taskCardDTO.getName());
+                taskCard.setStartDate(taskCardDTO.getStartDate());
+                taskCard.setEndDate(taskCardDTO.getEndDate());
+                taskCard.setStatus(taskCardDTO.getStatus());
             }
         }
         return taskCard;
