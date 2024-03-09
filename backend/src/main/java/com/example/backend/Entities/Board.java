@@ -11,11 +11,11 @@ import java.util.Objects;
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(nullable = false,unique = true)
     private String title;
 
-    public Board(Integer id, String title, String description, List<User> users, List<TaskCard> taskCards) {
+    public Board(Long id, String title, String description, List<User> users, List<TaskCard> taskCards) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -43,11 +43,11 @@ public class Board {
         this.description = description;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

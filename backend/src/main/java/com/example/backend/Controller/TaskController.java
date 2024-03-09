@@ -32,7 +32,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getTask(@PathVariable Integer id){
+    public ResponseEntity<?> getTask(@PathVariable Long id){
         try {
             Optional<TaskCard> optionalTaskCard=taskCardService.getTaskById(id);
             if(optionalTaskCard.isPresent()){
@@ -71,7 +71,7 @@ public class TaskController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTask(@PathVariable Integer id,@RequestBody TaskCardDTO taskCardDTO){
+    public ResponseEntity<?> updateTask(@PathVariable Long id,@RequestBody TaskCardDTO taskCardDTO){
         try {
             Optional<TaskCard> optionalTaskCard=taskCardService.getTaskById(id);
             if(optionalTaskCard.isPresent()){
@@ -86,11 +86,15 @@ public class TaskController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTask(@PathVariable Integer id){
+    @DeleteMapping("/{boardId}/{id}")
+    public ResponseEntity<?> deleteTask(@PathVariable Long boardId,@PathVariable Long id){
         try{
             Optional<TaskCard> optionalTask=taskCardService.getTaskById(id);
+
             if(optionalTask.isPresent()){
+                System.out.println(id);
+                taskCardService.deleteTaskAssociations(id);
+
                 taskCardService.deleteTask(optionalTask.get());
                 return new ResponseEntity<>(String.format("Task with id :%d was deleted",id),HttpStatus.OK);
             }
@@ -104,7 +108,7 @@ public class TaskController {
     private ResponseEntity<String> errorResponse(){
         return new ResponseEntity<>("Something went wrong:(",HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    private ResponseEntity<String> noTaskFoundResponse(Integer id){
+    private ResponseEntity<String> noTaskFoundResponse(Long id){
         return new ResponseEntity<>("no task found with id: "+id,HttpStatus.NOT_FOUND);
     }
 }

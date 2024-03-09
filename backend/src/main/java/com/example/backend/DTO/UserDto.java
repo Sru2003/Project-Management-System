@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
 
 public class UserDto {
-    private Integer id;
+    private Long id;
     @NotEmpty
     private String firstName;
 
@@ -23,7 +23,7 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(Integer id, String firstName, String lastName, String email, String password) {
+    public UserDto(Long id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,11 +31,11 @@ public class UserDto {
         this.password = password;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

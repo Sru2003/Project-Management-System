@@ -10,15 +10,15 @@ import java.util.Optional;
 public interface BoardService {
     List<Board> getAllBoards();
 
-    Optional<Board> getBoardById(Integer id);
+    Optional<Board> getBoardById(Long id);
 
 
     Optional<Board> getBoardByTitle(String title);
     Board saveNewBoard(BoardDTO boardDTO);
     Board updateBoard(Board oldBoard,BoardDTO newBoardDTO);
-
+    public void deleteBoardAssociations(Long boardId);
     void deleteBoard(Board board);
 
-    Board addNewTaskToBoard(Integer id, TaskCardDTO taskCardDTO);
+    Board addNewTaskToBoard(Long id, TaskCardDTO taskCardDTO);
 
 }

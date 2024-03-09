@@ -15,8 +15,8 @@ public interface UserService {
     User findUserByEmail(String email);
     List<UserDto> findAllUsers();
 
-    Optional<User> getUserById(Integer userId);
+    Optional<User> getUserById(Long userId);
 
-    User addNewBoardToUser(Integer userId, BoardDTO boardDTO);
+    User addNewBoardToUser(Long userId, BoardDTO boardDTO);
     //LoginMessage loginUser(LoginDto loginDto);
 }

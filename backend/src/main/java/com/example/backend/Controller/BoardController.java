@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/dashboard")
+
 @CrossOrigin(origins = "http://localhost:3000")
 public class BoardController {
     private final BoardService boardService;
@@ -62,7 +62,7 @@ public class BoardController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBoard(@PathVariable Integer id,@RequestBody BoardDTO boardDTO){
+    public ResponseEntity<?> updateBoard(@PathVariable Long id,@RequestBody BoardDTO boardDTO){
         try{
             Optional<Board> optionalBoard=boardService.getBoardById(id);
             if(optionalBoard.isPresent()){
@@ -75,11 +75,13 @@ public class BoardController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Integer id){
+    @DeleteMapping("/dashboard/{userId}/{id}")
+    public ResponseEntity<?> deleteBoard(@PathVariable Long userId,@PathVariable Long id){
         try{
             Optional<Board> optionalBoard=boardService.getBoardById(id);
             if(optionalBoard.isPresent()){
+                boardService.deleteBoardAssociations(id);
+
                 boardService.deleteBoard(optionalBoard.get());
                 return new ResponseEntity<>(
                         String.format("Board with id: %d was deleted",id),
@@ -89,15 +91,17 @@ public class BoardController {
                 return noBoardFoundResponse(id);
             }
         }catch (Exception e){
-            return noBoardFoundResponse(id);
+            return errorResponse();
         }
     }
 
-    @GetMapping("/{boardId}/tasks/")
-    public ResponseEntity<?> getAllTasksInBoard(@PathVariable Integer boardId){
+    @GetMapping("/dashboard/board/{boardId}/")
+    public ResponseEntity<?> getAllTasksInBoard(@PathVariable Long boardId){
         try {
+            System.out.println( " " + boardId);
             Optional<Board> optionalBoard=boardService.getBoardById(boardId);
             if(optionalBoard.isPresent()){
+                System.out.println("present");
                 return new ResponseEntity<>(
                         optionalBoard.get().getTaskCards(),
                         HttpStatus.OK);
@@ -109,9 +113,12 @@ public class BoardController {
         }
     }
 
-    @PostMapping("{boardId}/tasks/")
-    public ResponseEntity<?> createTaskAssignedToBoard(@PathVariable Integer boardId, @RequestBody TaskCardDTO taskCardDTO){
+    @PostMapping("/dashboard/board/{boardId}/")
+    public ResponseEntity<?> createTaskAssignedToBoard(@PathVariable Long boardId, @RequestBody TaskCardDTO taskCardDTO){
         try {
+
+            System.out.println(" " + boardId);
+            System.out.println(taskCardDTO);
             return new ResponseEntity<>(
                     boardService.addNewTaskToBoard(boardId,taskCardDTO),
                     HttpStatus.CREATED);
@@ -126,7 +133,9 @@ public class BoardController {
         return  new ResponseEntity<>("Something went wrong : (",HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ResponseEntity<String>noBoardFoundResponse(Integer id){
+    private ResponseEntity<String>noBoardFoundResponse(Long id){
         return new ResponseEntity<>("No Board found with id: " + id,HttpStatus.NOT_FOUND);
     }
+
+
 }

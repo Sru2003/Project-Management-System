@@ -1,23 +1,64 @@
 package com.example.backend.DTO;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+
 public class TaskCardDTO {
-    private Integer id;
+    private Long id;
     private String name;
 
+    private Date startDate;
 
-    public TaskCardDTO(Integer id, String name) {
+    private Date endDate;
+
+    private String status;
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public TaskCardDTO(Long id, String name, Date startDate, Date endDate, String status) {
         this.id = id;
         this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+    }
+
+    public TaskCardDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+
     }
 
     public TaskCardDTO() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,4 +69,5 @@ public class TaskCardDTO {
     public void setName(String name) {
         this.name = name;
     }
+
 }

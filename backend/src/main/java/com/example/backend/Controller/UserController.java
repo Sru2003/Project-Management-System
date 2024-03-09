@@ -49,7 +49,7 @@ public class UserController {
         if (existingUser != null && existingUser.getPassword().equals(password)) {
             // Redirect to the users page if password matches
             // Assuming you want to return the user's ID
-            Integer userId = existingUser.getId();
+            Long userId = existingUser.getId();
             // You can also return other details along with the ID if needed
             return new ResponseEntity<>("success, userId: " + userId, HttpStatus.OK);
         } else {
@@ -92,7 +92,7 @@ public class UserController {
 
 
     @GetMapping("/dashboard/{userId}/")
-    public ResponseEntity<?> getAllBoardsInUser(@PathVariable Integer userId){
+    public ResponseEntity<?> getAllBoardsInUser(@PathVariable Long userId){
         try {
             Optional<User> optionalUser=userService.getUserById(userId);
             if(optionalUser.isPresent()){
@@ -108,7 +108,7 @@ public class UserController {
     }
 
     @PostMapping("/dashboard/{userId}/")
-    public ResponseEntity<?> createBoardAssignedToUser(@PathVariable Integer userId,@RequestBody BoardDTO boardDTO){
+    public ResponseEntity<?> createBoardAssignedToUser(@PathVariable Long userId,@RequestBody BoardDTO boardDTO){
        try {
            return new ResponseEntity<>(
                    userService.addNewBoardToUser(userId, boardDTO),HttpStatus.CREATED
@@ -126,7 +126,7 @@ public class UserController {
         return  new ResponseEntity<>("Something went wrong : (",HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ResponseEntity<String>noUserFoundResponse(Integer id){
+    private ResponseEntity<String>noUserFoundResponse(Long id){
         return new ResponseEntity<>("No User found with id: " + id,HttpStatus.NOT_FOUND);
     }
 }

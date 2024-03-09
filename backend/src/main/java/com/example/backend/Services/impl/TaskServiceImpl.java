@@ -4,6 +4,9 @@ import com.example.backend.DTO.TaskCardDTO;
 import com.example.backend.Entities.TaskCard;
 import com.example.backend.Repository.TaskCardRepository;
 import com.example.backend.Services.TaskCardService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,9 @@ import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskCardService {
+    @PersistenceContext
+    private EntityManager entityManager;
+
 
     private  final TaskCardRepository taskCardRepository;
 
@@ -31,7 +37,7 @@ public class TaskServiceImpl implements TaskCardService {
 
     @Override
     @Transactional
-    public Optional<TaskCard> getTaskById(Integer id) {
+    public Optional<TaskCard> getTaskById(Long id) {
         return taskCardRepository.findById(id);
     }
 
@@ -55,6 +61,14 @@ public class TaskServiceImpl implements TaskCardService {
 
     @Override
     @Transactional
+    public void deleteTaskAssociations(Long boardId) {
+        Query query = entityManager.createNativeQuery("DELETE FROM board_task_cards WHERE task_cards_id = ?1");
+        query.setParameter(1, boardId);
+        query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
     public void deleteTask(TaskCard taskCard) {
             taskCardRepository.delete(taskCard);
     }
@@ -62,6 +76,9 @@ public class TaskServiceImpl implements TaskCardService {
     private TaskCard convertDTOToTask(TaskCardDTO taskCardDTO){
         TaskCard taskCard=new TaskCard();
         taskCard.setName(taskCardDTO.getName());
+        taskCard.setStatus(taskCardDTO.getStatus());
+        taskCard.setStartDate(taskCardDTO.getStartDate());
+        taskCard.setEndDate(taskCardDTO.getEndDate());
         return taskCard;
     }
 

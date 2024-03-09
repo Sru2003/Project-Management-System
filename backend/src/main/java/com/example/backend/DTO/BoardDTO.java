@@ -3,24 +3,24 @@ package com.example.backend.DTO;
 import jakarta.validation.constraints.NotBlank;
 
 public class BoardDTO {
-    private Integer id;
+    private Long id;
     private String title;
 
 
 
     @NotBlank
     private String description;
-    public BoardDTO(Integer id, String title,String description) {
+    public BoardDTO(Long id, String title,String description) {
         this.id = id;
         this.title = title;
         this.description=description;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

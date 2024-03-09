@@ -77,13 +77,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Optional<User> getUserById(Integer userId) {
+    public Optional<User> getUserById(Long userId) {
         return userRepository.findById(userId);
     }
 
     @Override
     @Transactional
-    public User addNewBoardToUser(Integer userId, BoardDTO boardDTO) {
+    public User addNewBoardToUser(Long userId, BoardDTO boardDTO) {
             User user=userRepository.findById(userId).get();
             user.addBoard(convertDTOToBoard(boardDTO));
             return userRepository.save(user);

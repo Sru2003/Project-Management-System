@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 
-public interface UserRepository extends JpaRepository<User,Integer> {
+public interface UserRepository extends JpaRepository<User,Long> {
     //Optional<User> findOneByEmailAndPassword(String email,String password);
     @Query("from User where email=?1")
     User findByEmail(String email);
